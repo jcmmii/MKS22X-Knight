@@ -20,15 +20,39 @@ public class KnightBoard {
     }
   }
 
+  //helper methods: adding & removing Knights
+  private boolean addKnight(int row, int col, int num) {
+    if (row < board.length || row >= board.length) return false;
+    if (col < board.length || col >= board[0].length) return false;
+    if (board[row][col]==0) {
+      board[row][col] = num;
+      return true;
+    }
+    return false;
+  }
+
+  private boolean removeKnight(int row, int col) {
+    board[row][col] = 0;
+    return true;
+  }
+
+  /**
+  Blank board returned if solve()is never called or when there is no solution
+  0s are displayed as underscores
+  @returns the properly formatted string
+  */
   public String toString() {
     String ret = "";
     for (int x = 0; x < board.length; x++) {
       for (int y = 0; y < board[x].length; y++) {
-        if (board[x][y] < 10) {
-          ret = ret + " " + board[x][y] + " ";
-        } else {
-          ret = ret + board[x][y] + " ";
-        }
+        if (board[x][y] == 0) {
+          ret = ret + " _ ";
+        }else {
+          if (board[x][y] < 10) {
+            ret = ret + " " + board[x][y] + " ";
+          } else {
+            ret = ret + board[x][y] + " ";
+          }
         ret = ret + "\n";
       }
     }
@@ -52,7 +76,20 @@ public class KnightBoard {
 
   //solve helper method
   private boolean solveH(int row, int col, int moveNumber) {
+    if (moveNumber > board.length * board[0].length) return true;
+    if (addKnight(row,col,moveNumber)) {
+      if (solveH(row+2,col-1,moveNumber+1)) return true;
+      if (solveH(row+2,col+1,moveNumber+1)) return true;
+      if (solveH(row+1,col-2,moveNumber+1)) return true;
+      if (solveH(row+1,col+2,moveNumber+1)) return true;
 
+      if (solveH(row-2,col-1,moveNumber+1)) return true;
+      if (solveH(row-2,col+1,moveNumber+1)) return true;
+      if (solveH(row-1,col-2,moveNumber+1)) return true;
+      if (solveH(row-1,col+2,moveNumber+1)) return true;
+      removeKnight(row,col);
+    }
+    return false;
   }
 
   //helper method: IllegalStateException thrown when nonzero value is found
