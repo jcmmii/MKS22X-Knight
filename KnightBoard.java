@@ -6,7 +6,7 @@ public class KnightBoard {
   Initializes the board to the correct size and make all spaces 0's
   */
   public KnightBoard(int startingRows,int startingCols) {
-    if (startingCols <= 0 || startingRows <= 0) throw IllegalArgumentException();
+    if (startingCols <= 0 || startingRows <= 0) throw new IllegalArgumentException();
     board = new int[startingRows][startingCols];
     clear();
   }
@@ -53,8 +53,9 @@ public class KnightBoard {
           } else {
             ret = ret + board[x][y] + " ";
           }
-        ret = ret + "\n";
+        }
       }
+      ret = ret + "\n";
     }
     return ret;
   }
@@ -68,10 +69,10 @@ public class KnightBoard {
   @returns true when the board is solvable from the specified starting position
   */
   public boolean solve(int startingRow, int startingCol) {
-    if (startingRow < 0 || startingRow >= board.length) throw IllegalArgumentException();
-    if (startingCol < 0 || startingRow >= board[0].length) throw IllegalArgumentException();
+    if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
+    if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
     detectNon0();
-    solveH(startingRow,startingCol,1);
+    return solveH(startingRow,startingCol,1);
   }
 
   //solve helper method
@@ -96,7 +97,7 @@ public class KnightBoard {
   private void detectNon0() {
     for (int x = 0; x < board.length; x++) {
       for (int y = 0; y < board[x].length; y++) {
-        if (board[x][y] != 0) throw IllegalStateException();
+        if (board[x][y] != 0) throw new IllegalStateException();
       }
     }
   }
@@ -106,10 +107,7 @@ public class KnightBoard {
   @throws IllegalArgumentException when either parameter is negative or out of bounds.
   @returns the number of solutions from the starting position specified
   */
-  public int countSolutions(int startingRow, int startingCol){
-
-
-  }
+//  public int countSolutions(int startingRow, int startingCol){}
 
 }
 
