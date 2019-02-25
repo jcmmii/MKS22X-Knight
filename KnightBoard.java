@@ -69,7 +69,6 @@ public class KnightBoard {
   @returns true when the board is solvable from the specified starting position
   */
   public boolean solve(int startingRow, int startingCol) {
-    clear();
     if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
     if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
     detectNon0();
@@ -108,7 +107,18 @@ public class KnightBoard {
   @throws IllegalArgumentException when either parameter is negative or out of bounds.
   @returns the number of solutions from the starting position specified
   */
-//  public int countSolutions(int startingRow, int startingCol){}
+  public int countSolutions(int startingRow, int startingCol) {
+    detectNon0();
+    if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
+    if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
+    int ret = countSolutionsH(startingRow,startingCol,0);
+    clear();
+    return ret;
+  }
+
+  private int countSolutionsH(int startingRow, int startingCol, int count) {
+
+  }
 
 }
 
