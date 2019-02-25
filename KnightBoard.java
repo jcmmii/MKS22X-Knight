@@ -22,8 +22,8 @@ public class KnightBoard {
 
   //helper methods: adding & removing Knights
   private boolean addKnight(int row, int col, int num) {
-    if (row < board.length || row >= board.length) return false;
-    if (col < board.length || col >= board[0].length) return false;
+    if (row < 0 || row >= board.length) return false;
+    if (col < 0 || col >= board[0].length) return false;
     if (board[row][col]==0) {
       board[row][col] = num;
       return true;
@@ -69,6 +69,7 @@ public class KnightBoard {
   @returns true when the board is solvable from the specified starting position
   */
   public boolean solve(int startingRow, int startingCol) {
+    clear();
     if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
     if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
     detectNon0();
