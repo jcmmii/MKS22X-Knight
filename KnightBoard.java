@@ -67,6 +67,7 @@ public class KnightBoard {
   @throws IllegalArgumentException when either parameter is negative
   or out of bounds.
   @returns true when the board is solvable from the specified starting position
+  Leaves board in a solved state
   */
   public boolean solve(int startingRow, int startingCol) {
     if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
@@ -77,8 +78,10 @@ public class KnightBoard {
 
   //solve helper method
   private boolean solveH(int row, int col, int moveNumber) {
+    //base case: if the moveNumber > area, then all spaces are filled, and thus, true
     if (moveNumber > board.length * board[0].length) return true;
     if (addKnight(row,col,moveNumber)) {
+      //tests each possible move by branching out - if base case is reached, returns true
       if (solveH(row+2,col-1,moveNumber+1)) return true;
       if (solveH(row+2,col+1,moveNumber+1)) return true;
       if (solveH(row+1,col-2,moveNumber+1)) return true;
@@ -88,12 +91,12 @@ public class KnightBoard {
       if (solveH(row-2,col+1,moveNumber+1)) return true;
       if (solveH(row-1,col-2,moveNumber+1)) return true;
       if (solveH(row-1,col+2,moveNumber+1)) return true;
-      removeKnight(row,col);
+      removeKnight(row,col); //otherwise, removes Knight, and deems it unsolvable
     }
     return false;
   }
 
-  //helper method: IllegalStateException thrown when nonzero value is found
+  //helper method: IllegalStateException() thrown when nonzero value is found
   private void detectNon0() {
     for (int x = 0; x < board.length; x++) {
       for (int y = 0; y < board[x].length; y++) {
@@ -106,6 +109,7 @@ public class KnightBoard {
   @throws IllegalStateException when the board contains non-zero values.
   @throws IllegalArgumentException when either parameter is negative or out of bounds.
   @returns the number of solutions from the starting position specified
+  Does NOT leave board in solved state
   */
   public int countSolutions(int startingRow, int startingCol) {
     detectNon0();
@@ -119,27 +123,27 @@ public class KnightBoard {
   private int countSolutionsH(int row, int col, int moveNumber) {
     int count = 0;
     if (addKnight(row,col,moveNumber)) {
+      //base case: if moveNumber == area, then that means one solution is found
       if (moveNumber == board.length * board[0].length) {
         removeKnight(row,col);
         return 1;
       } else {
-      count = count + countSolutionsH(row+2,col-1,moveNumber+1);
-      count = count + countSolutionsH(row+2,col+1,moveNumber+1);
-      count = count + countSolutionsH(row+1,col-2,moveNumber+1);
-      count = count + countSolutionsH(row+1,col+2,moveNumber+1);
+        //tests each possible move by branching out
+        //count adds on to itself
+        //if the knight can't be placed, count is returned, goes onto the next test case
+        //keeps on adding count onto itself until all branches are filled
+          count = count + countSolutionsH(row+2,col-1,moveNumber+1);
+          count = count + countSolutionsH(row+2,col+1,moveNumber+1);
+          count = count + countSolutionsH(row+1,col-2,moveNumber+1);
+          count = count + countSolutionsH(row+1,col+2,moveNumber+1);
 
-      count = count + countSolutionsH(row-2,col-1,moveNumber+1);
-      count = count + countSolutionsH(row-2,col+1,moveNumber+1);
-      count = count + countSolutionsH(row-1,col-2,moveNumber+1);
-      count = count + countSolutionsH(row-1,col+2,moveNumber+1);
+          count = count + countSolutionsH(row-2,col-1,moveNumber+1);
+          count = count + countSolutionsH(row-2,col+1,moveNumber+1);
+          count = count + countSolutionsH(row-1,col-2,moveNumber+1);
+          count = count + countSolutionsH(row-1,col+2,moveNumber+1);
       }
       removeKnight(row,col);
     }
     return count;
   }
-
-
-
 }
-
-//move in a set order [non optimzation] THEN use optimzation
