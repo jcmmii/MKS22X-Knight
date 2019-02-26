@@ -116,12 +116,20 @@ public class KnightBoard {
     return ret;
   }
 
-  private int countSolutionsH(int startingRow, int startingCol, int count, int moveNumber) {
+  private int countSolutionsH(int row, int col, int count, int moveNumber) {
     if (moveNumber > board.length * board[0].length) count = count + 1;
-    if (addKnight(row,col,count,moveNumber)) {
-      
-    }
+    if (addKnight(row,col,moveNumber)) {
+      countSolutionsH(row+2,col-1,count,moveNumber+1);
+      countSolutionsH(row+2,col+1,count,moveNumber+1);
+      countSolutionsH(row+1,col-2,count,moveNumber+1);
+      countSolutionsH(row+1,col+2,count,moveNumber+1);
 
+      countSolutionsH(row-2,col-1,count,moveNumber+1);
+      countSolutionsH(row-2,col+1,count,moveNumber+1);
+      countSolutionsH(row-1,col-2,count,moveNumber+1);
+      countSolutionsH(row-1,col+2,count,moveNumber+1);
+    }
+    return count;
   }
 
 }
