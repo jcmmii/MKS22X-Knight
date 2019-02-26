@@ -111,23 +111,28 @@ public class KnightBoard {
     detectNon0();
     if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
     if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
-    int ret = countSolutionsH(startingRow,startingCol,0,1);
+    int ret = countSolutionsH(startingRow,startingCol,1);
     clear();
     return ret;
   }
 
-  private int countSolutionsH(int row, int col, int count, int moveNumber) {
-    if (moveNumber > board.length * board[0].length) count = count + 1;
+  private int countSolutionsH(int row, int col, int moveNumber) {
+    int count = 0;
+    if (moveNumber > board.length * board[0].length) {
+      removeKnight(row,col);
+      return 1;
+    }
     if (addKnight(row,col,moveNumber)) {
-      countSolutionsH(row+2,col-1,count,moveNumber+1);
-      countSolutionsH(row+2,col+1,count,moveNumber+1);
-      countSolutionsH(row+1,col-2,count,moveNumber+1);
-      countSolutionsH(row+1,col+2,count,moveNumber+1);
+      count = count + countSolutionsH(row+2,col-1,moveNumber+1);
+      count = count + countSolutionsH(row+2,col+1,moveNumber+1);
+      count = count + countSolutionsH(row+1,col-2,moveNumber+1);
+      count = count + countSolutionsH(row+1,col+2,moveNumber+1);
 
-      countSolutionsH(row-2,col-1,count,moveNumber+1);
-      countSolutionsH(row-2,col+1,count,moveNumber+1);
-      countSolutionsH(row-1,col-2,count,moveNumber+1);
-      countSolutionsH(row-1,col+2,count,moveNumber+1);
+      count = count + countSolutionsH(row-2,col-1,moveNumber+1);
+      count = count + countSolutionsH(row-2,col+1,moveNumber+1);
+      count = count + countSolutionsH(row-1,col-2,moveNumber+1);
+      count = count + countSolutionsH(row-1,col+2,moveNumber+1);
+      removeKnight(row,col);
     }
     return count;
   }
