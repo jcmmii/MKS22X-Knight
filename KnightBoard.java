@@ -111,13 +111,16 @@ public class KnightBoard {
     detectNon0();
     if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
     if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
-    int ret = countSolutionsH(startingRow,startingCol,0);
+    int ret = countSolutionsH(startingRow,startingCol,0,1);
     clear();
     return ret;
   }
 
-  private int countSolutionsH(int startingRow, int startingCol, int count) {
-    if (
+  private int countSolutionsH(int startingRow, int startingCol, int count, int moveNumber) {
+    if (moveNumber > board.length * board[0].length) count = count + 1;
+    if (addKnight(row,col,count,moveNumber)) {
+      
+    }
 
   }
 
