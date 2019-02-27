@@ -169,7 +169,7 @@ public class KnightBoard {
     return solveOptimizeH(row,col,1);
   }
 
-  //determines number of outgoing moves
+  //determines number of outgoing moves on an empty board
   private void determineOutMoves() {
     for (int x = 0; x < board2.length; x++) {
       for (int y = 0; y < board2[0].length; y++) {
@@ -204,8 +204,7 @@ public class KnightBoard {
     if (addKnight(row-1,col+2)) moveList.add(board2[row+2][col-1]);
     if (addKnight(row-1,col-2)) moveList.add(board2[row+2][col-1]);
 
-    Collections.sort(moveList);
-
+    Collections.sort(moveList); //sorts the moves based off of outgoing moves 
 
   }
 }
