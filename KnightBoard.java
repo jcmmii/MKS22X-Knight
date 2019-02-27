@@ -1,5 +1,9 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class KnightBoard {
   private int[][] board;
+  private DataStructure[][] board2;
 
   /**
   @throws IllegalArgumentException when either parameter is negative or zero
@@ -33,6 +37,13 @@ public class KnightBoard {
 
   private boolean removeKnight(int row, int col) {
     board[row][col] = 0;
+    return true;
+  }
+
+  //helper addKnight for optimization
+  private boolean addKnightO(int row, int col) {
+    if (row < 0 || row >= board.length) return false;
+    if (col < 0 || col >= board[0].length) return false;
     return true;
   }
 
@@ -155,7 +166,31 @@ public class KnightBoard {
     return solveOptimizeH(row,col,1);
   }
 
+  //determines number of outgoing moves
+  private void determineOutMoves() {
+    for (int x = 0; x < board2.length; x++) {
+      for (int y = 0; y < board2[0].length; y++) {
+        int move = 0;
+        if (addKnight(x+2,y-1)) move=move+1;
+        if (addKnight(x+2,y+1)) move=move+1;
+        if (addKnight(x+1,y-2)) move=move+1;
+        if (addKnight(x+1,y+2)) move=move+1;
+
+        if (addKnight(x-2,y+1)) move=move+1;
+        if (addKnight(x-2,y-1)) move=move+1;
+        if (addKnight(x-1,y+2)) move=move+1;
+        if (addKnight(x-1,y-2)) move=move+1;
+        board2[x][y] = new DataStructure(x,y,move);
+      }
+    }
+  }
+
   private boolean solveOptimizeH(int row, int col, int move) {
+    ArrayList<DataStructure> moveList = new ArrayList<DataStructure>();
+    if (move > board.length * board[0].length) return true;
+
     
+
+
   }
 }
