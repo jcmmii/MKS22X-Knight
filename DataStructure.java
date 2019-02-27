@@ -15,7 +15,7 @@ public class DataStructure {
     return 0; //if they are equal
   }
 
-//accessor methods 
+//accessor methods
   public int getRow() {
     return row;
   }
@@ -24,5 +24,13 @@ public class DataStructure {
   }
   public int getMoves() {
     return moves;
+  }
+
+  public void decreaseMove() {
+    if (moves > 0) moves = moves -1;
+  }
+
+  public void setZero() {
+    moves = 0;
   }
 }
