@@ -9,4 +9,20 @@ public class DataStructure {
     moves = MOVES;
   }
 
+  public int compareTo(DataStructure x) {
+    if (getMoves() > x.getMoves()) return 1;
+    if (getMoves() < x.getMoves()) return -1;
+    return 0; //if they are equal
+  }
+
+//accessor methods 
+  public int getRow() {
+    return row;
+  }
+  public int getCol() {
+    return col;
+  }
+  public int getMoves() {
+    return moves;
+  }
 }
