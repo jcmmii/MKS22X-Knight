@@ -12,6 +12,7 @@ public class KnightBoard {
   public KnightBoard(int startingRows,int startingCols) {
     if (startingCols <= 0 || startingRows <= 0) throw new IllegalArgumentException();
     board = new int[startingRows][startingCols];
+    board2 = new DataStructure[startingRows][startingCols];
     clear();
   }
 
@@ -41,9 +42,10 @@ public class KnightBoard {
   }
 
   //helper addKnight for optimization
+  //checks if Knight can be placed at a coordinate
   private boolean addKnightO(int row, int col) {
-    if (row < 0 || row >= board.length) return false;
-    if (col < 0 || col >= board[0].length) return false;
+    if (row < 0 || row >= board2.length) return false;
+    if (col < 0 || col >= board2[0].length) return false;
     return true;
   }
 
@@ -163,6 +165,7 @@ public class KnightBoard {
     if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
     if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
     detectNon0();
+    determineOutMoves();
     return solveOptimizeH(row,col,1);
   }
 
@@ -171,6 +174,8 @@ public class KnightBoard {
     for (int x = 0; x < board2.length; x++) {
       for (int y = 0; y < board2[0].length; y++) {
         int move = 0;
+        //starts with possible moves = 0, then creates a new DataStructure at the end
+        //based off how many places a Knight can be added
         if (addKnight(x+2,y-1)) move=move+1;
         if (addKnight(x+2,y+1)) move=move+1;
         if (addKnight(x+1,y-2)) move=move+1;
@@ -187,9 +192,19 @@ public class KnightBoard {
 
   private boolean solveOptimizeH(int row, int col, int move) {
     ArrayList<DataStructure> moveList = new ArrayList<DataStructure>();
-    if (move > board.length * board[0].length) return true;
+    if (move > board2.length * board2[0].length) return true;
 
-    
+    if (addKnight(row+2,col-1)) moveList.add(board2[row+2][col-1]);
+    if (addKnight(row+2,col+1)) moveList.add(board2[row+2][col-1]);
+    if (addKnight(row+1,col-2)) moveList.add(board2[row+2][col-1]);
+    if (addKnight(row+1,col+2)) moveList.add(board2[row+2][col-1]);
+
+    if (addKnight(row-2,col+1)) moveList.add(board2[row+2][col-1]);
+    if (addKnight(row-2,col-1)) moveList.add(board2[row+2][col-1]);
+    if (addKnight(row-1,col+2)) moveList.add(board2[row+2][col-1]);
+    if (addKnight(row-1,col-2)) moveList.add(board2[row+2][col-1]);
+
+    Collections.sort(moveList);
 
 
   }
