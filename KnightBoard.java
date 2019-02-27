@@ -146,4 +146,16 @@ public class KnightBoard {
     }
     return count;
   }
+
+  //Optimization time yay
+  private boolean solveOptimize(int row, int col) {
+    if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
+    if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
+    detectNon0();
+    return solveOptimizeH(row,col,1);
+  }
+
+  private boolean solveOptimizeH(int row, int col, int move) {
+    
+  }
 }
