@@ -1,6 +1,6 @@
 //Stores & Sorts all coordinates and stores the amount of outgoing moves
 
-public class DataStructure {
+public class DataStructure implements Comparable<DataStructure> {
   private int row, column, moves;
 
   public DataStructure (int ROW, int COLUMN, int MOVES) {
@@ -20,7 +20,7 @@ public class DataStructure {
     return row;
   }
   public int getCol() {
-    return col;
+    return column;
   }
   public int getMoves() {
     return moves;

@@ -161,9 +161,9 @@ public class KnightBoard {
   }
 
   //Optimization time yay
-  private boolean solveOptimize(int row, int col) {
-    if (startingRow < 0 || startingRow >= board.length) throw new IllegalArgumentException();
-    if (startingCol < 0 || startingRow >= board[0].length) throw new IllegalArgumentException();
+  public boolean solveOptimize(int row, int col) {
+    if (row < 0 || row >= board.length) throw new IllegalArgumentException();
+    if (col < 0 || col >= board[0].length) throw new IllegalArgumentException();
     detectNon0();
     determineOutMoves();
     return solveOptimizeH(row,col,1);
@@ -195,14 +195,14 @@ public class KnightBoard {
     if (move > board2.length * board2[0].length) return true;
 
     if (addKnightO(row+2,col-1)) moveList.add(board2[row+2][col-1]);
-    if (addKnightO(row+2,col+1)) moveList.add(board2[row+2][col-1]);
-    if (addKnightO(row+1,col-2)) moveList.add(board2[row+2][col-1]);
-    if (addKnightO(row+1,col+2)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row+2,col+1)) moveList.add(board2[row+2][col+1]);
+    if (addKnightO(row+1,col-2)) moveList.add(board2[row+1][col-2]);
+    if (addKnightO(row+1,col+2)) moveList.add(board2[row+1][col+2]);
 
-    if (addKnightO(row-2,col+1)) moveList.add(board2[row+2][col-1]);
-    if (addKnightO(row-2,col-1)) moveList.add(board2[row+2][col-1]);
-    if (addKnightO(row-1,col+2)) moveList.add(board2[row+2][col-1]);
-    if (addKnightO(row-1,col-2)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row-2,col+1)) moveList.add(board2[row-2][col+1]);
+    if (addKnightO(row-2,col-1)) moveList.add(board2[row-2][col-1]);
+    if (addKnightO(row-1,col+2)) moveList.add(board2[row-1][col+2]);
+    if (addKnightO(row-1,col-2)) moveList.add(board2[row-1][col-2]);
 
     Collections.sort(moveList); //sorts the moves based off of outgoing moves
 
@@ -217,12 +217,11 @@ public class KnightBoard {
       if (addKnightO(row-1,col-2)) board2[row-1][col-2].decreaseMove();
       if (addKnightO(row-1,col+2)) board2[row-1][col+2].decreaseMove();
 
-      board[moveList.get(x).getRow()][moveList.get(x).getCol()] = move;
-      board2[moveList.get(x).getRow()][moveList.get(x).getCol()].setZero();
+      board[moveList.get(a).getRow()][moveList.get(a).getCol()] = move;
+      board2[moveList.get(a).getRow()][moveList.get(a).getCol()].setZero();
 
-      if (solveOptimizeH(moveList.get(x).getRow(),moveList.get(x).getCol(),move+1)) return true;
-      return false; 
+      if (solveOptimizeH(moveList.get(a).getRow(),moveList.get(a).getCol(),move+1)) return true;
     }
-
+    return false;
   }
 }
