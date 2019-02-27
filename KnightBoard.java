@@ -176,15 +176,15 @@ public class KnightBoard {
         int move = 0;
         //starts with possible moves = 0, then creates a new DataStructure at the end
         //based off how many places a Knight can be added
-        if (addKnight(x+2,y-1)) move=move+1;
-        if (addKnight(x+2,y+1)) move=move+1;
-        if (addKnight(x+1,y-2)) move=move+1;
-        if (addKnight(x+1,y+2)) move=move+1;
+        if (addKnightO(x+2,y-1)) move=move+1;
+        if (addKnightO(x+2,y+1)) move=move+1;
+        if (addKnightO(x+1,y-2)) move=move+1;
+        if (addKnightO(x+1,y+2)) move=move+1;
 
-        if (addKnight(x-2,y+1)) move=move+1;
-        if (addKnight(x-2,y-1)) move=move+1;
-        if (addKnight(x-1,y+2)) move=move+1;
-        if (addKnight(x-1,y-2)) move=move+1;
+        if (addKnightO(x-2,y+1)) move=move+1;
+        if (addKnightO(x-2,y-1)) move=move+1;
+        if (addKnightO(x-1,y+2)) move=move+1;
+        if (addKnightO(x-1,y-2)) move=move+1;
         board2[x][y] = new DataStructure(x,y,move);
       }
     }
@@ -194,17 +194,35 @@ public class KnightBoard {
     ArrayList<DataStructure> moveList = new ArrayList<DataStructure>();
     if (move > board2.length * board2[0].length) return true;
 
-    if (addKnight(row+2,col-1)) moveList.add(board2[row+2][col-1]);
-    if (addKnight(row+2,col+1)) moveList.add(board2[row+2][col-1]);
-    if (addKnight(row+1,col-2)) moveList.add(board2[row+2][col-1]);
-    if (addKnight(row+1,col+2)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row+2,col-1)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row+2,col+1)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row+1,col-2)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row+1,col+2)) moveList.add(board2[row+2][col-1]);
 
-    if (addKnight(row-2,col+1)) moveList.add(board2[row+2][col-1]);
-    if (addKnight(row-2,col-1)) moveList.add(board2[row+2][col-1]);
-    if (addKnight(row-1,col+2)) moveList.add(board2[row+2][col-1]);
-    if (addKnight(row-1,col-2)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row-2,col+1)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row-2,col-1)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row-1,col+2)) moveList.add(board2[row+2][col-1]);
+    if (addKnightO(row-1,col-2)) moveList.add(board2[row+2][col-1]);
 
-    Collections.sort(moveList); //sorts the moves based off of outgoing moves 
+    Collections.sort(moveList); //sorts the moves based off of outgoing moves
+
+    for (int a = 0; a < moveList.size(); a++) {
+      if (addKnightO(row+2,col-1)) board2[row+2][col-1].decreaseMove();
+      if (addKnightO(row+2,col+1)) board2[row+2][col+1].decreaseMove();
+      if (addKnightO(row+1,col-2)) board2[row+1][col-2].decreaseMove();
+      if (addKnightO(row+1,col+2)) board2[row+1][col+2].decreaseMove();
+
+      if (addKnightO(row-2,col-1)) board2[row-2][col-1].decreaseMove();
+      if (addKnightO(row-2,col+1)) board2[row-2][col+1].decreaseMove();
+      if (addKnightO(row-1,col-2)) board2[row-1][col-2].decreaseMove();
+      if (addKnightO(row-1,col+2)) board2[row-1][col+2].decreaseMove();
+
+      board[moveList.get(x).getRow()][moveList.get(x).getCol()] = move;
+      board2[moveList.get(x).getRow()][moveList.get(x).getCol()].setZero();
+
+      if (solveOptimizeH(moveList.get(x).getRow(),moveList.get(x).getCol(),move+1)) return true;
+      return false; 
+    }
 
   }
 }
